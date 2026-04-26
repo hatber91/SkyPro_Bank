@@ -2,7 +2,7 @@ from src import masks
 from src import widget
 from src import processing
 
-#card_number = input('Введите код вашей карты, состоящий из 16 цифр на лицевой стороне пластиковой карты: ')
+#card_number = input('Введите код вашей карты, состоящий из 16 цифр на лицевой стороне пластиковой карты:')
 card_number = '1234567812345678'
 print(masks.get_mask_card_number(card_number))
 
