@@ -23,8 +23,8 @@ list_of_dictionaries = [
     {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
 ]
 
-state_value = "EXECUTED"
+state = "EXECUTED"
 
-print(processing.filter_by_state(list_of_dictionaries, state_value))
+print(processing.filter_by_state(list_of_dictionaries, state))
 
 print(processing.sort_by_date(list_of_dictionaries, True))
