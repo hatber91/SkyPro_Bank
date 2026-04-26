@@ -21,3 +21,12 @@ def mask_account_card(any_account_number: Union[str]) -> Union[str]:
 
     type_and_numbers = f"{letters} {numbers_with_stars}"
     return type_and_numbers
+
+
+def get_date(date_of_entry: Union[str]) -> Union[str]:
+    """Функция которая принмает информацию о дате в формате банка и выводит её в удобном для пользователя формате"""
+    day = date_of_entry[8:10]
+    month = date_of_entry[5:7]
+    year = date_of_entry[:4]
+    data = f"{day}.{month}.{year}"
+    return data
