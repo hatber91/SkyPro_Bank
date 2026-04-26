@@ -4,7 +4,7 @@ from src import masks
 
 
 def mask_account_card(any_account_number: Union[str]) -> Union[str]:
-    """Функция принмает информацию о картах или счетах и выводит её в формате маски для одного из типов"""
+    """Функция принимает информацию о картах или счетах и выводит её в формате маски для одного из типов."""
 
     letters = "".join(symbol for symbol in any_account_number if symbol.isalpha() or symbol.isspace())
 
@@ -24,7 +24,7 @@ def mask_account_card(any_account_number: Union[str]) -> Union[str]:
 
 
 def get_date(date_of_entry: Union[str]) -> Union[str]:
-    """Функция которая принмает информацию о дате в формате банка и выводит её в удобном для пользователя формате"""
+    """Функция, которая принимает информацию о дате в формате банка и выводит её в удобном для пользователя формате."""
     day = date_of_entry[8:10]
     month = date_of_entry[5:7]
     year = date_of_entry[:4]
