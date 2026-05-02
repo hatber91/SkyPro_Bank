@@ -1,11 +1,11 @@
 from src import masks, processing, widget
 
 # card_number = input('Введите код вашей карты, состоящий из 16 цифр на лицевой стороне пластиковой карты:')
-card_number = "1234567812345678"
+card_number = "123456781234567"
 print(masks.get_mask_card_number(card_number))
 
 # account_number = input('Введите номер вашего счёта, состоящий из 20 чисел: ')
-account_number = "12345678901234567890"
+account_number = "123456789012345678901"
 print(masks.get_mask_account(account_number))
 
 any_account_number = "Visa Platinum 7000792289606361"
