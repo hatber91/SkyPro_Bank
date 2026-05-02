@@ -8,7 +8,7 @@ print(masks.get_mask_card_number(card_number))
 account_number = "123456789012345678901"
 print(masks.get_mask_account(account_number))
 
-any_account_number = "Visa Platinum 7000792289606361"
+any_account_number = ""
 
 print(widget.mask_account_card(any_account_number))
 
@@ -27,4 +27,4 @@ state = "EXECUTED"
 
 print(processing.filter_by_state(list_of_dictionaries, state))
 
-print(processing.sort_by_date(list_of_dictionaries, True))
+print(processing.sort_by_date(list_of_dictionaries, False))

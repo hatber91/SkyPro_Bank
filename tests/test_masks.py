@@ -24,4 +24,3 @@ def test_get_mask_account_more():
 
 def test_get_mask_account_empty():
     assert get_mask_account("") == 'Вы не ввели номер счёта'
-
