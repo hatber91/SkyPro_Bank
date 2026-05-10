@@ -3,7 +3,7 @@ from src import masks, processing, widget
 print("*" * 100)
 
 # card_number = input('Введите код вашей карты, состоящий из 16 цифр на лицевой стороне пластиковой карты:')
-card_number = "123456781234567"
+card_number = "1234567812345678"
 print(f"Номер вашей карты: {masks.get_mask_card_number(card_number)}")
 
 # account_number = input('Введите номер вашего счёта, состоящий из 20 чисел: ')
