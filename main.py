@@ -1,6 +1,7 @@
-from src import masks, processing, widget
-from decorators import log
-
+# from decorators import log
+# from src import masks, processing, widget
+# -------------------------------------------------------------------------------------------------------------------
+from src.external_api import get_amount_in_rub
 
 # print("*" * 100)
 #
@@ -37,9 +38,21 @@ from decorators import log
 #
 # print(processing.sort_by_date(list_of_dictionaries, False))
 
-#-------------------------------------------------------------------------------------------------------------------
-@log()
-def add_1(x):
-    return x + 1
+# -------------------------------------------------------------------------------------------------------------------
+# @log()
+# def add_1(x):
+#     return x + 1
+#
+# add_1(10)
 
-add_1(10)
+
+transaction = {
+    "operationAmount": {
+        "amount": "10.00",
+        "currency": {
+            "code": "USD"
+        }
+    }
+}
+
+print(f'{get_amount_in_rub(transaction)} рублей')

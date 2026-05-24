@@ -32,6 +32,9 @@ def test_log_file() -> None:
     """Проверяет запись логов в файл."""
     filename = "test_log.txt"
 
+    with open(filename, "w", encoding="utf-8"):
+        pass
+
     @log(filename=filename)
     def add(x: int, y: int) -> int:
         return x + y
