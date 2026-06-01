@@ -39,6 +39,6 @@ def get_transactions(file_path: str) -> list[dict[str, Any]]:
     return [item for item in data if isinstance(item, dict)]
 
 
-if __name__ == "__main__":
-    my_file_path = "../data/operations.json"
-    print(get_transactions(my_file_path))
+# if __name__ == "__main__":
+#     my_file_path = "../data/operations.json"
+#     print(get_transactions(my_file_path))
