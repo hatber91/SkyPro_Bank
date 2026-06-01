@@ -4,9 +4,12 @@ from src import masks
 
 
 def mask_account_card(any_account_number: Union[str]) -> Union[str]:
-    """Функция принмает информацию о картах или счетах и выводит её в формате маски для одного из типов"""
+    """Функция принимает информацию о картах или счетах и выводит её в формате маски для одного из типов."""
 
-    letters = "".join(symbol for symbol in any_account_number if symbol.isalpha() or symbol.isspace())
+    if any_account_number == "":
+        return "Вы не внесли данные"
+
+    letters = "".join(symbol for symbol in any_account_number if symbol.isalpha() or symbol.isspace()).strip()
 
     numbers = ""  # создаём строку только с числами
 
@@ -16,17 +19,43 @@ def mask_account_card(any_account_number: Union[str]) -> Union[str]:
 
     if len(numbers) == 16:
         numbers_with_stars = masks.get_mask_card_number(numbers)
-    elif len(numbers) == 20:
-        numbers_with_stars = masks.get_mask_account(numbers)
+        return f"{letters} {numbers_with_stars}"
 
-    type_and_numbers = f"{letters} {numbers_with_stars}"
-    return type_and_numbers
+    if len(numbers) == 20:
+        numbers_with_stars = masks.get_mask_account(numbers)
+        return f"{letters} {numbers_with_stars}"
+
+    if len(numbers) > 20:
+        return "Номер счёта слишком большой"
+
+    if 16 < len(numbers) < 20:
+        return "Не хватает цифр в номере счета или номер карты слишком большой"
+
+    if 1 <= len(numbers) < 16:
+        return "Не хватает цифр в номере карты"
+
+    if len(numbers) == 0:
+        return "Вы не заполнили номер счета или карты!"
+
+    return "Вы ввели некорректный номер"
 
 
 def get_date(date_of_entry: Union[str]) -> Union[str]:
-    """Функция которая принмает информацию о дате в формате банка и выводит её в удобном для пользователя формате"""
-    day = date_of_entry[8:10]
-    month = date_of_entry[5:7]
+    """Преобразует дату из формата YYYY-MM-DD и тд в формат: ДД.ММ.ГГГГ"""
+    if not date_of_entry:
+        return "Вы не ввели дату"
+
+    if len(date_of_entry) < 10:
+        return "Некорректный формат даты"
+
     year = date_of_entry[:4]
-    data = f"{day}.{month}.{year}"
-    return data
+    month = date_of_entry[5:7]
+    day = date_of_entry[8:10]
+
+    if not (year.isdigit() and month.isdigit() and day.isdigit()):
+        return "Некорректный формат даты"
+
+    if date_of_entry[4] != "-" or date_of_entry[7] != "-":
+        return "Некорректный формат даты"
+
+    return f"{day}.{month}.{year}"
