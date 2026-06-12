@@ -35,7 +35,7 @@ def mask_account_card(any_account_number: Union[str]) -> Union[str]:
         return "Не хватает цифр в номере карты"
 
     if len(numbers) == 0:
-        return "Вы не заполнили номер счета или карты!"
+        return "Не заполнен номер счёта или карты"
 
     return "Вы ввели некорректный номер"
 

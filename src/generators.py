@@ -1,11 +1,22 @@
-from typing import Iterator
+from typing import Any, Iterator
 
 
-def filter_by_currency(transactions: list[dict], currency: str) -> Iterator[dict]:
+def filter_by_currency(transactions: list[dict[str, Any]], currency: str) -> Iterator[dict[str, Any]]:
     """Функция-генератор принимает на вход список словарей и возвращает итератор,
     который выдаёт транзакции с заданной валютой"""
     for transaction in transactions:
-        if transaction["operationAmount"]["currency"]["code"] == currency:
+        operation_amount = transaction.get("operationAmount")
+
+        if isinstance(operation_amount, dict):
+            currency_data = operation_amount.get("currency", {})
+
+            if isinstance(currency_data, dict):
+                currency_code = currency_data.get("code", "")
+
+                if currency_code == currency:
+                    yield transaction
+
+        elif transaction.get("currency_code") == currency:
             yield transaction
 
 

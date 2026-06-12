@@ -1,37 +1,36 @@
 from typing import Any
 
-from src.masks import get_mask_account, get_mask_card_number
+from src.generators import filter_by_currency
 from src.operations_filter import process_bank_search
 from src.processing import filter_by_state, sort_by_date
 from src.transactions_reader import read_transactions_from_csv, read_transactions_from_excel
 from src.utils import get_transactions
-from src.widget import get_date
+from src.widget import get_date, mask_account_card
 
-
-def mask_account_or_card(value: str) -> str:
-    """Маскирует карту или счёт"""
-
-    numbers = ""
-
-    for symbol in value:
-        if symbol.isdigit():
-            numbers += symbol
-
-    letters = ""
-
-    for symbol in value:
-        if symbol.isalpha() or symbol.isspace():
-            letters += symbol
-
-    letters = letters.strip()
-
-    if len(numbers) == 16:
-        return f"{letters} {get_mask_card_number(numbers)}"
-
-    if len(numbers) == 20:
-        return f"{letters} {get_mask_account(numbers)}"
-
-    return value
+# def mask_account_or_card(value: str) -> str:
+#     """Маскирует карту или счёт"""
+#
+#     numbers = ""
+#
+#     for symbol in value:
+#         if symbol.isdigit():
+#             numbers += symbol
+#
+#     letters = ""
+#
+#     for symbol in value:
+#         if symbol.isalpha() or symbol.isspace():
+#             letters += symbol
+#
+#     letters = letters.strip()
+#
+#     if len(numbers) == 16:
+#         return f"{letters} {get_mask_card_number(numbers)}"
+#
+#     if len(numbers) == 20:
+#         return f"{letters} {get_mask_account(numbers)}"
+#
+#     return value
 
 
 def get_amount_and_currency(operation: dict[str, Any]) -> tuple[str, str]:
@@ -56,18 +55,18 @@ def get_amount_and_currency(operation: dict[str, Any]) -> tuple[str, str]:
     return str(amount), str(currency)
 
 
-def filter_rub_transactions(data: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Функция оставляет только рублёвые операции"""
-
-    result = []
-
-    for operation in data:
-        amount, currency = get_amount_and_currency(operation)
-
-        if currency == "RUB":
-            result.append(operation)
-
-    return result
+# def filter_rub_transactions(data: list[dict[str, Any]]) -> list[dict[str, Any]]:
+#     """Функция оставляет только рублёвые операции"""
+#
+#     result = []
+#
+#     for operation in data:
+#         amount, currency = get_amount_and_currency(operation)
+#
+#         if currency == "RUB":
+#             result.append(operation)
+#
+#     return result
 
 
 def print_operation(operation: dict[str, Any]) -> None:
@@ -84,10 +83,10 @@ def print_operation(operation: dict[str, Any]) -> None:
     print(f"{get_date(date)} {description}")
 
     if operation_from and operation_to:
-        print(f"{mask_account_or_card(str(operation_from))} -> {mask_account_or_card(str(operation_to))}")
+        print(f"{mask_account_card(str(operation_from))} -> {mask_account_card(str(operation_to))}")
 
     elif operation_to:
-        print(mask_account_or_card(str(operation_to)))
+        print(mask_account_card(str(operation_to)))
 
     print(f"Сумма: {amount} {currency}")
     print()
@@ -129,8 +128,7 @@ def choose_status() -> str:
         print("Введите статус, по которому необходимо выполнить фильтрацию.")
         print("Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING")
 
-        user_status = input("Пользователь: ")
-        user_status = user_status.upper()
+        user_status = input("Пользователь: ").upper()
 
         if user_status in available_statuses:
             print(f'Операции отфильтрованы по статусу "{user_status}"')
@@ -155,6 +153,7 @@ def main() -> None:
 
     if sort_answer == "да":
         sort_order = input("Отсортировать по возрастанию или по убыванию? ").lower()
+
         if sort_order == "по возрастанию":
             transactions = sort_by_date(transactions, False)
         else:
@@ -163,7 +162,7 @@ def main() -> None:
     rub_answer = input("Выводить только рублевые транзакции? Да/Нет: ").lower()
 
     if rub_answer == "да":
-        transactions = filter_rub_transactions(transactions)
+        transactions = list(filter_by_currency(transactions, "RUB"))
 
     search_answer = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет: ").lower()
 
